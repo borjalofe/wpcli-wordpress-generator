@@ -29,7 +29,6 @@ This repo aims at ease you build your own WP-CLI-based WordPress Generator Scrip
 
 ```mermaid
     flowchart LR
-        A[Set Defaults] --> B[Get User Input]
         subgraph base [Base Install]
             direction TB
             B -->C[Base Install]
@@ -57,6 +56,7 @@ This repo aims at ease you build your own WP-CLI-based WordPress Generator Scrip
             O --> P
             P --> Q[Clean Installation Files]
         end
+        A[Set Defaults] --> B[Get User Input]
         Q --> R((Finish!))
 ```
 
