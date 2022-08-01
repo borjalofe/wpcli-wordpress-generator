@@ -28,9 +28,9 @@ This repo aims at ease you build your own WP-CLI-based WordPress Generator Scrip
 ## How it works
 
 ```mermaid
-    flowchart LR
+    flowchart TB
         subgraph base [Base Install]
-            direction TB
+            direction LR
             B -->C[Base Install]
             C --> D[User Setup]
             D --> E[Theme Setup]
@@ -38,7 +38,7 @@ This repo aims at ease you build your own WP-CLI-based WordPress Generator Scrip
             F -->|yes| G[Install Paid Theme Plugin]
         end
         subgraph content [Content Setup]
-            direction TB
+            direction LR
             F ---->|No| H[Home Page Setup]
             G --> H
             H --> I[Blog Page Setup]
@@ -51,7 +51,7 @@ This repo aims at ease you build your own WP-CLI-based WordPress Generator Scrip
             N -->|Yes| O[WooCommerce Install & Setup]
         end
         subgraph content [Ending Tasks]
-            direction TB
+            direction LR
             N ---->|No| P[Update Website]
             O --> P
             P --> Q[Clean Installation Files]
