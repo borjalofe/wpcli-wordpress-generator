@@ -30,24 +30,33 @@ This repo aims at ease you build your own WP-CLI-based WordPress Generator Scrip
 ```mermaid
     flowchart LR
         A[Set Defaults] --> B[Get User Input]
-        B -->C[Base Install]
-        C --> D[User Setup]
-        D --> E[Theme Setup]
-        E --> F{Is it a paid theme?}
-        F -->|yes| G[Install Paid Theme Plugin]
-        F ---->|No| H[Home Page Setup]
-        G --> H
-        H --> I[Blog Page Setup]
-        I --> J[Contact Page Setup]
-        J --> K{Is Contact Form 7 installed?}
-        K -->|No| L[Contact Form 7 Install & Setup]
-        K ---->|Yes| M[Create & Add Contact Form to Contact Page]
-        L --> M
-        M --> N{Has the web being flagged as eCommerce?}
-        N -->|Yes| O[WooCommerce Install & Setup]
-        N ---->|No| P[Update Website]
-        O --> P
-        P --> Q[Clean Installation Files]
+        subgraph base [Base Install]
+            direction TB
+            B -->C[Base Install]
+            C --> D[User Setup]
+            D --> E[Theme Setup]
+            E --> F{Is it a paid theme?}
+            F -->|yes| G[Install Paid Theme Plugin]
+        end
+        subgraph content [Content Setup]
+            direction TB
+            F ---->|No| H[Home Page Setup]
+            G --> H
+            H --> I[Blog Page Setup]
+            I --> J[Contact Page Setup]
+            J --> K{Is Contact Form 7 installed?}
+            K -->|No| L[Contact Form 7 Install & Setup]
+            K ---->|Yes| M[Create & Add Contact Form to Contact Page]
+            L --> M
+            M --> N{Has the web being flagged as eCommerce?}
+            N -->|Yes| O[WooCommerce Install & Setup]
+        end
+        subgraph content [Ending Tasks]
+            direction TB
+            N ---->|No| P[Update Website]
+            O --> P
+            P --> Q[Clean Installation Files]
+        end
         Q --> R((Finish!))
 ```
 
