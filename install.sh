@@ -112,11 +112,6 @@ generate_db_prefix() {
 
 BASE_FOLDER=$(pwd)
 
-##
-# Default Process Vars
-##
-HAS_ECOMMERCE="n"
-
 # Here you can setup the basics of the script
 
 # If you're going to use paid plugins from the beginning, you'll need to have
@@ -141,9 +136,10 @@ TIMEZONE_STRING='America/New_York'
 ##
 OUR_ADMIN_EMAIL=''
 OUR_ADMIN_FIRST_NAME=''
-OUR_ADMIN_LAT_NAME=''
+OUR_ADMIN_LAST_NAME=''
 OUR_ADMIN_URL=''
-OUR_ADMIN_USER=''
+OUR_ADMIN_DISPLAY_NAME="${OUR_ADMIN_FIRST_NAME} ${OUR_ADMIN_LAST_NAME}"
+OUR_ADMIN_USER=$(slugify ${OUR_ADMIN_DISPLAY_NAME// /})`
 
 ##
 # Default Colors
@@ -188,6 +184,14 @@ read -sp "What's your Admin User's Password? -we're not going to show the passwo
 
 echo -e "\nDo you want to setup an ecommerce?\n    - Write \"yes\" or \"y\" to do so\n    - Anything else won't setup an ecommerce"
 read -p "> " HAS_ECOMMERCE
+
+if [[ 'yes' == $HAS_ECOMMERCE ]]; then
+    HAS_ECOMMERCE='y'
+fi
+
+if [[ 'y' != $HAS_ECOMMERCE ]]; then
+    HAS_ECOMMERCE='n'
+fi
 
 echo -e "\nPlease, create the site's database and get all data needed for its setup:\n    - DB_USER -we assume it's the same as the DB_NAME-\n    - DB_PASS"
 read -p "Press [ENTER] to continue" WHATEVER
@@ -257,3 +261,38 @@ wp option update use_smilies 0
 # Permalink Setup
 ##
 wp rewrite structure '/%postname%/'
+
+################################################################################
+#                                                                              #
+#                                                                              #
+#                                  User Setup                                  #
+#                                                                              #
+#                                                                              #
+################################################################################
+
+##
+# We're going to create a default editor user so we can give it to our client
+##
+MAIN_AUTHOR=$(wp user create "${EDITOR_USER}" "${EDITOR_EMAIL}" --user_pass="${EDITOR_PASS}" --role=editor --porcelain)
+
+if [[ $OUR_ADMIN_USER != '' && $OUR_ADMIN_EMAIL != '' ]]; then
+
+    OUR_ADMIN=$(wp user create "${OUR_ADMIN_USER}" "${OUR_ADMIN_EMAIL}" --role=administrator --send-email --porcelain)
+
+    if [[ $OUR_ADMIN_FIRST_NAME != '' ]]; then
+        wp user update ${OUR_ADMIN} --first_name=${OUR_ADMIN_FIRST_NAME}
+    fi
+
+    if [[ $OUR_ADMIN_LAST_NAME != '' ]]; then
+        wp user update ${OUR_ADMIN} --last_name=${OUR_ADMIN_LAST_NAME}
+    fi
+
+    if [[ $OUR_ADMIN_DISPLAY_NAME != '' ]]; then
+        wp user update ${OUR_ADMIN} --user_email=${OUR_ADMIN_DISPLAY_NAME}
+    fi
+
+    if [[ $OUR_ADMIN_URL != '' ]]; then
+        wp user update ${OUR_ADMIN} --user_url=${OUR_ADMIN_URL}
+    fi
+
+fi
