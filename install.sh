@@ -321,3 +321,5 @@ if [[ $(ls "./themes/${PARENT_THEME}/" | grep install | wc -l ) -eq 1 ]]; then
     fi
 fi
 source "${BASE_FOLDER}/themes/${PARENT_THEME}/l10n/${LOCALE}.sh"
+
+source "${BASE_FOLDER}/themes/${PARENT_THEME}/install.sh"
