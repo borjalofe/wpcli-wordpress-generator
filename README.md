@@ -33,6 +33,7 @@ This repo aims at ease you build your own WP-CLI-based WordPress Generator Scrip
     - [Themes](#themes)
       - [Question: How can I add a new theme?](#question-how-can-i-add-a-new-theme)
       - [Question: How can I add a new paid theme?](#question-how-can-i-add-a-new-paid-theme)
+      - [Question: How can I setup a new theme?](#question-how-can-i-setup-a-new-theme)
     - [Wanna know anything more?](#wanna-know-anything-more)
   - [TODO](#todo)
   - [Technologies](#technologies)
@@ -227,7 +228,62 @@ You'll see the following defaults:
 
 #### Question: How can I add a new theme?
 
+I've set theme [Twenty Twenty Two][twentytwentytwo] as the default theme 'cause it's the default theme this year and has the basics of theme setup.
+
+If you want to use another theme you just need to:
+
+1. copy the `twentytwentytwo` folder
+2. change its name to the theme name you want to setup
+3. modify the `PARENT_THEME` var to match the theme name you want to setup
+4. update the theme's setup to your needs as explained here.
+
 #### Question: How can I add a new paid theme?
+
+I've set theme [Twenty Twenty Two][twentytwentytwo] as the default theme 'cause it's the default theme this year and has the basics of theme setup.
+
+However in this case it's not as straightforward as with a free theme. Most paid themes are a mix of:
+
+1. a free theme
+2. a paid extension theme plugin
+
+E.g. GeneratePress has:
+
+1. a free theme called [GeneratePress][generatepress]
+2. a paid extension theme plugin called [GP Premium][gp-premium]
+
+You can get the free theme and use it the same way I told you in the [previous question](#question-how-can-i-add-a-new-theme) but you'll need some modifications for the paid extension plugin:
+
+1. copy the `twentytwentytwo` folder
+2. change its name to the theme name you want to setup
+3. modify the `PARENT_THEME` var to match the theme name you want to setup
+4. some paid themes have their own child theme, if that's the case then:
+   1. get the child theme
+   2. remove the version string from the zip file name
+   3. upload it to your private open repo -which you have set up with the `REPO` var explained in the "[Defaults Section](#defaults)"- into the `themes/parent_theme/` folder
+   4. add the following line instead of the `wp scaffold child-theme` line in the `install.sh` file inside the `themes/parent_theme/` folder -don't forget to change "ZIP-WITH-THE-CHILD-THEME" with the actual zip file name:
+      1. wp theme install "${REPO}/themes/${PARENT_THEME}/ZIP-WITH-THE-CHILD-THEME" --activate
+5. now you have to setup the paid extension theme plugin:
+   1. get the paid extension theme plugin
+   2. remove the version string from the zip file name
+   3. upload it to your private open repo -which you have set up with the `REPO` var explained in the "[Defaults Section](#defaults)"- into the `themes/parent_theme/` folder
+   4. add the following line to after the `wp theme install "${REPO}/themes/${PARENT_THEME}/ZIP-WITH-THE-CHILD-THEME" --activate` line the `install.sh` file inside the `themes/parent_theme/` folder -don't forget to change "ZIP-WITH-THE-PLUGIN" with the actual zip file name:
+      1. wp plugin install "${REPO}/themes/${PARENT_THEME}/ZIP-WITH-THE-PLUGIN" --activate
+6. update the theme's setup to your needs as explained here.
+
+#### Question: How can I setup a new theme?
+
+Theme config is saved in the options table so if you want to know want config can you do you'll need to:
+
+1. install the theme you want
+2. setup the theme to match your requirements
+3. access with SSH to the server
+4. look at the theme's config options with the following commands:
+   1. `wp option list --search="*${PARENT_THEME}*" --field=option_name`
+   2. `wp option list --search="*${CHILD_THEME}*" --field=option_name`
+
+You'll need some tinkering to get the correct setup and then update the theme install file with it.
+
+I've set an example at the Twenty Twenty Two folder.
 
 ### Wanna know anything more?
 
@@ -254,5 +310,8 @@ This project has been tested up to WordPress 6 and PHP 8.
 
 Created by [@borjalofe][github].
 
+[generatepress]: https://wordpress.org/themes/generatepress/
+[gp-premium]: https://generatepress.com/premium/
 [github]: https://github.com/borjalofe/
 [wpcli]: https://make.wordpress.org/cli/
+[twentytwentytwo]: https://wordpress.org/themes/twentytwentytwo/
