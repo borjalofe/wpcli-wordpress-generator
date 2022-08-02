@@ -22,7 +22,9 @@ This repo aims at ease you build your own WP-CLI-based WordPress Generator Scrip
       - [slugify](#slugify)
         - [slugify usage](#slugify-usage)
   - [How to modify this project](#how-to-modify-this-project)
+    - [Defaults](#defaults)
     - [Features](#features)
+      - [Question: How can I add a new locale?](#question-how-can-i-add-a-new-locale)
       - [Question: How can I add a new menu?](#question-how-can-i-add-a-new-menu)
       - [Question: How can I add a new page?](#question-how-can-i-add-a-new-page)
       - [Question: How can I add a new plugin?](#question-how-can-i-add-a-new-plugin)
@@ -32,6 +34,7 @@ This repo aims at ease you build your own WP-CLI-based WordPress Generator Scrip
       - [Question: How can I add a new theme?](#question-how-can-i-add-a-new-theme)
       - [Question: How can I add a new paid theme?](#question-how-can-i-add-a-new-paid-theme)
     - [Wanna know anything more?](#wanna-know-anything-more)
+  - [TODO](#todo)
   - [Technologies](#technologies)
   - [Sources](#sources)
   - [Status](#status)
@@ -163,7 +166,52 @@ Please, note we substitute spaces before passing THE_NAME_TO_BE_SLUGIFIED so the
 
 ## How to modify this project
 
+### Defaults
+
+After the "Helper Functions" Section in the script, you'll see a "Defaults" Section where I've set all the defaults you're going to always use in your projects without modifications.
+
+You'll see the following defaults:
+
+1. `REPO`: as I want this script to be as maintainable as possible, I've let some setups in other files. You can copy all of them every time or you can upload them to your own server and setup de url here so you only need to copy the main file.
+   1. Moreover, in case you're going to install any paid theme / plugin, you're gonna need to have it in an open url to easily use it from the script.
+2. `DBHOST`: usually, all databases are in 'localhost' but if it's not your case, you can setup the basic host here.
+3. Default Setup Data:
+   1. `LOCALE`: as this is a generic script, I've used 'en_US' as locale but as I'm spanish and most of my projects are in Spanish I have this setup to 'es_ES'. Moreover, as I usually work in Valencia I also use the catalonian locale -'ca'-.
+   2. `DATE_FORMAT`: as this is a generic script, I've used 'm/d/Y' as date format but as I'm spanish and most of my projects are in Spanish I have this setup to 'd/m/Y'.
+   3. `TIME_FORMAT`: as this is a generic script, I've used 'g:i a' as date format but as I'm spanish and most of my projects are in Spanish I have this setup to 'H:i'.
+   4. `TIMEZONE_STRING`: as this is a generic script, I've used 'America/New_York' as date format but as I'm spanish and most of my projects are in Spanish I have this setup to 'Europe/Madrid'.
+4. Default Users: as this script it's aimed at easing development tasks I usually create an admin user for myself and the tasks I have to do. This is also useful whenever I need to do some maintenance for the client. If you don't want to setup your own user, you just need to set this vars as empty.
+   1. `OUR_ADMIN_EMAIL`: My user's email. This is a required field.
+   2. `OUR_ADMIN_FIRST_NAME`: My user's first name.
+   3. `OUR_ADMIN_LAST_NAME`: My user's first name.
+   4. `OUR_ADMIN_DISPLAY_NAME`: My user's display name.
+   5. `OUR_ADMIN_URL`: My user's website.
+   6. `OUR_ADMIN_USER`: My user's login. This is a required field. In this case, I generate it from the display name -which is also generated from first and last name-.
+5. Default colors: As I think this is key in a development process I've created this set of vars.
+   1. Brand colors: generally we use two sets of brand colors -each one with a background and a foreground / text color-:
+      1. Primary colors:
+         1. `PRIMARY_BG_COLOR`
+         2. `PRIMARY_FG_COLOR`
+      2. Secondary / accent colors:
+         1. `ACCENT_BG_COLOR`
+         2. `ACCENT_FG_COLOR`
+   2. Message colors: Every web / app uses messages to notify the user how are the results of her actions. Here you can setup all of them:
+      1. Info messages:
+         1. `INFO_BG_COLOR`
+         2. `INFO_FG_COLOR`
+      1. Success messages:
+         1. `SUCCESS_BG_COLOR`
+         2. `SUCCESS_FG_COLOR`
+      1. Warning messages:
+         1. `WARNING_BG_COLOR`
+         2. `WARNING_FG_COLOR`
+      1. Danger messages:
+         1. `DANGER_BG_COLOR`
+         2. `DANGER_FG_COLOR`
+
 ### Features
+
+#### Question: How can I add a new locale?
 
 #### Question: How can I add a new menu?
 
@@ -185,7 +233,11 @@ Please, note we substitute spaces before passing THE_NAME_TO_BE_SLUGIFIED so the
 
 I'm no to going to answer questions about specific setups -such as "how can I setup plugin X?"- as this repo it's not aimed at giving customized solutions but to encourage you to create your own.
 
-On the other hand, I'll try to anwser any question it's not already answered in this section.
+On the other hand, I'll try to answer any question it's not already answered in this section.
+
+## TODO
+
+1. Add code to setup basic colors from user input.
 
 ## Technologies
 
