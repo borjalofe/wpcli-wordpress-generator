@@ -142,6 +142,11 @@ OUR_ADMIN_DISPLAY_NAME="${OUR_ADMIN_FIRST_NAME} ${OUR_ADMIN_LAST_NAME}"
 OUR_ADMIN_USER=$(slugify ${OUR_ADMIN_DISPLAY_NAME// /})`
 
 ##
+# Default Theme
+##
+PARENT_THEME='twentytwentytwo'
+
+##
 # Default Colors
 ##
 PRIMARY_FG_COLOR='#000000'
@@ -296,3 +301,23 @@ if [[ $OUR_ADMIN_USER != '' && $OUR_ADMIN_EMAIL != '' ]]; then
     fi
 
 fi
+
+################################################################################
+#                                                                              #
+#                                                                              #
+#                                 Theme Setup                                  #
+#                                                                              #
+#                                                                              #
+################################################################################
+
+
+wget "${REPO}/themes/${PARENT_THEME}/install.sh" -q -O "${BASE_FOLDER}/themes/${PARENT_THEME}/install.sh" -
+wget "${REPO}/themes/default/l10n/${LOCALE}.sh" -q -O "${BASE_FOLDER}/themes/${PARENT_THEME}/l10n/${LOCALE}.sh" -
+
+if [[ $(ls "./themes/${PARENT_THEME}/" | grep install | wc -l ) -eq 1 ]]; then
+    wget "${REPO}/themes/${PARENT_THEME}/l10n/${LOCALE}.sh" -q -O "${BASE_FOLDER}/themes/${PARENT_THEME}/l10n/${LOCALE}.sh" -
+    if [[ $(ls "./themes/${PARENT_THEME}/l10n/" | grep ${LOCALE} | wc -l ) -eq 0 ]]; then
+        wget "${REPO}/themes/default/l10n/${LOCALE}.sh" -q -O "${BASE_FOLDER}/themes/${PARENT_THEME}/l10n/${LOCALE}.sh" -
+    fi
+fi
+source "${BASE_FOLDER}/themes/${PARENT_THEME}/l10n/${LOCALE}.sh"
