@@ -59,12 +59,12 @@ generate_pass() {
     [[ $# -eq 1 ]] || exit 1
 
     local ADMIN_PASS=$1
-    FIRST_HALF=${ADMIN_PASS:(-4)}
+    local FIRST_HALF=${ADMIN_PASS:(-4)}
     FIRST_HALF=${FIRST_HALF^^}
     FIRST_HALF=$(echo ${FIRST_HALF//A/@})
     FIRST_HALF=$(echo ${FIRST_HALF//E/#})
     FIRST_HALF=$(echo ${FIRST_HALF//I/!})
-    SECOND_HALF=${ADMIN_PASS:0:4}
+    local SECOND_HALF=${ADMIN_PASS:0:4}
     SECOND_HALF=${SECOND_HALF,,}
     FIRST_HALF=$(echo ${FIRST_HALF//a/4})
     FIRST_HALF=$(echo ${FIRST_HALF//b/8})
@@ -81,24 +81,15 @@ generate_pass() {
     echo $ADMIN_PASS
 }
 
-get_domain() {
-    [[ $# -eq 1 ]] || exit 1
-
-    BACKUP_IFS=$IFS;
-    IFS='.' read -r -a array <<< "$URL";
-    DOMAIN="${array[0]}";
-    IFS=$BACKUP_IFS
-}
-
 generate_db_prefix() {
     [[ $# -eq 1 ]] || echo $(echo $RANDOM | md5sum | head -c 8;echo;)"_"
 
-    DATE=$(date +%Y)
-    PREPROCESS_DB_PREFIX=$1
+    local DATE=$(date +%Y)
+    local PREPROCESS_DB_PREFIX=$1
     PREPROCESS_DB_PREFIX=${PREPROCESS_DB_PREFIX,,}
-    DB_PREFIX="${PREPROCESS_DB_PREFIX:0:5}${PREPROCESS_DB_PREFIX:(-2)}_${DATE}_"
+    local DB_PREFIX="${PREPROCESS_DB_PREFIX:0:5}${PREPROCESS_DB_PREFIX:(-2)}_${DATE}_"
 
-    echo DB_PREFIX
+    echo $DB_PREFIX
 }
 
 
@@ -116,7 +107,7 @@ BASE_FOLDER=$(pwd)
 
 # If you're going to use paid plugins from the beginning, you'll need to have
 # them accesible from some open repo. You can set that repo here.
-REPO="" 
+REPO="https://codediem.com/blf-wp-addons-20220628" 
 
 ##
 # Default DB Data
@@ -134,12 +125,15 @@ TIMEZONE_STRING='America/New_York'
 ##
 # Default Users
 ##
+OUR_ADMIN_USER=''
 OUR_ADMIN_EMAIL=''
 OUR_ADMIN_FIRST_NAME=''
 OUR_ADMIN_LAST_NAME=''
 OUR_ADMIN_URL=''
 OUR_ADMIN_DISPLAY_NAME="${OUR_ADMIN_FIRST_NAME} ${OUR_ADMIN_LAST_NAME}"
-OUR_ADMIN_USER=$(slugify ${OUR_ADMIN_DISPLAY_NAME// /})`
+if [ "${OUR_ADMIN_DISPLAY_NAME}" != " " ]; then
+    OUR_ADMIN_USER=$(slugify ${OUR_ADMIN_DISPLAY_NAME// /})
+fi
 
 ##
 # Default Theme
@@ -179,22 +173,22 @@ DANGER_FG_COLOR='#ffffff'
 
 read -p "What's your Website's Title? " TITLE
 
-read -p "What's your Website's URL? -without http(s)://- " URL
+read -p "What's your Website's URL -without http(s)://-? " URL
 
-read -p "What's your Admin User's Login?" ADMIN_USER
+read -p "What's your Admin User's Login? " ADMIN_USER
 
-read -p "What's your Admin User's Email?" ADMIN_EMAIL
+read -p "What's your Admin User's Email? " ADMIN_EMAIL
 
-read -sp "What's your Admin User's Password? -we're not going to show the password-" ADMIN_PASS
+read -sp "What's your Admin User's Password? -we're not going to show the password- " ADMIN_PASS
 
 echo -e "\nDo you want to setup an ecommerce?\n    - Write \"yes\" or \"y\" to do so\n    - Anything else won't setup an ecommerce"
 read -p "> " HAS_ECOMMERCE
 
-if [[ 'yes' == $HAS_ECOMMERCE ]]; then
+if [ "yes" == "${HAS_ECOMMERCE}" ]; then
     HAS_ECOMMERCE='y'
 fi
 
-if [[ 'y' != $HAS_ECOMMERCE ]]; then
+if [ "y" != "${HAS_ECOMMERCE}" ]; then
     HAS_ECOMMERCE='n'
 fi
 
@@ -209,7 +203,11 @@ read -sp "What's the Database Password? -we're not going to show the password- "
 # Generate extra setup data
 ##
 
-DOMAIN=$(get_domain ${URL})
+BACKUP_IFS=$IFS;
+IFS='.' read -r -a array <<< "$URL";
+DOMAIN="${array[0]}";
+IFS=$BACKUP_IFS
+
 CHILD_THEME=$(echo "${DOMAIN}-child")
 
 DB_NAME=$DB_USER
@@ -280,23 +278,23 @@ wp rewrite structure '/%postname%/'
 ##
 MAIN_AUTHOR=$(wp user create "${EDITOR_USER}" "${EDITOR_EMAIL}" --user_pass="${EDITOR_PASS}" --role=editor --porcelain)
 
-if [[ $OUR_ADMIN_USER != '' && $OUR_ADMIN_EMAIL != '' ]]; then
+if [ $OUR_ADMIN_USER != '' && $OUR_ADMIN_EMAIL != '' ]; then
 
     OUR_ADMIN=$(wp user create "${OUR_ADMIN_USER}" "${OUR_ADMIN_EMAIL}" --role=administrator --send-email --porcelain)
 
-    if [[ $OUR_ADMIN_FIRST_NAME != '' ]]; then
+    if [ $OUR_ADMIN_FIRST_NAME != '' ]; then
         wp user update ${OUR_ADMIN} --first_name=${OUR_ADMIN_FIRST_NAME}
     fi
 
-    if [[ $OUR_ADMIN_LAST_NAME != '' ]]; then
+    if [ $OUR_ADMIN_LAST_NAME != '' ]; then
         wp user update ${OUR_ADMIN} --last_name=${OUR_ADMIN_LAST_NAME}
     fi
 
-    if [[ $OUR_ADMIN_DISPLAY_NAME != '' ]]; then
+    if [ $OUR_ADMIN_DISPLAY_NAME != '' ]; then
         wp user update ${OUR_ADMIN} --user_email=${OUR_ADMIN_DISPLAY_NAME}
     fi
 
-    if [[ $OUR_ADMIN_URL != '' ]]; then
+    if [ $OUR_ADMIN_URL != '' ]; then
         wp user update ${OUR_ADMIN} --user_url=${OUR_ADMIN_URL}
     fi
 

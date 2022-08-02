@@ -17,8 +17,6 @@ This repo aims at ease you build your own WP-CLI-based WordPress Generator Scrip
         - [generate_db_prefix usage](#generate_db_prefix-usage)
       - [generate_pass](#generate_pass)
         - [generate_pass usage](#generate_pass-usage)
-      - [get_domain](#get_domain)
-        - [get_domain usage](#get_domain-usage)
       - [slugify](#slugify)
         - [slugify usage](#slugify-usage)
   - [How to modify this project](#how-to-modify-this-project)
@@ -142,16 +140,6 @@ With seed:
 ##### generate_pass usage
 
 `PASSWORD=$(generate_pass $SEED)`
-
-#### get_domain
-
-For me, the DOMAIN it's the real project name and matches the first part of the website's url -which is the domain without the TLD or the subdomain if the URL has one.
-
-`get_domain` has all the code needed to get the domain from the URL. We're going to use several times during the installation.
-
-##### get_domain usage
-
-`DOMAIN=$(get_domain $URL)`
 
 #### slugify
 
