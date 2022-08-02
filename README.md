@@ -21,20 +21,54 @@ This repo aims at ease you build your own WP-CLI-based WordPress Generator Scrip
         - [get_domain usage](#get_domain-usage)
       - [slugify](#slugify)
         - [slugify usage](#slugify-usage)
-  - [Modify this project](#modify-this-project)
-    - [Add a new theme](#add-a-new-theme)
-      - [Paid themes](#paid-themes)
-    - [Add a new plugin](#add-a-new-plugin)
-      - [Paid plugins](#paid-plugins)
-    - [Add a new page](#add-a-new-page)
-    - [Add a new menu](#add-a-new-menu)
-    - [Add a new widget](#add-a-new-widget)
+  - [How to modify this project](#how-to-modify-this-project)
+    - [Features](#features)
+      - [Question: How can I add a new menu?](#question-how-can-i-add-a-new-menu)
+      - [Question: How can I add a new page?](#question-how-can-i-add-a-new-page)
+      - [Question: How can I add a new plugin?](#question-how-can-i-add-a-new-plugin)
+      - [Question: How can I add a new paid plugin?](#question-how-can-i-add-a-new-paid-plugin)
+      - [Question: How can I add a new widget?](#question-how-can-i-add-a-new-widget)
+    - [Themes](#themes)
+      - [Question: How can I add a new theme?](#question-how-can-i-add-a-new-theme)
+      - [Question: How can I add a new paid theme?](#question-how-can-i-add-a-new-paid-theme)
     - [Wanna know anything more?](#wanna-know-anything-more)
   - [Technologies](#technologies)
   - [Sources](#sources)
   - [Status](#status)
 
 ## Intro
+
+If you've build several websites using WordPress, you'd know by now most of those projects are -basically- the same project. You just need to change contents, colors and images.
+
+So... you're doing the same actions everytime you build a website:
+
+1. Install&Setup WordPress
+2. Install&Setup a WordPress Theme
+3. Install&Setup Features -which fall into one of the following three categories-:
+   1. Common-to-all-projects Features:
+      1. Plugins: Forms Plugin, Cookies Plugin -at least in Europe-, WPO Plugin -e.g. WP Rocket-, ...
+      2. Pages: homepage, blog page, contact page, legal pages -legal notice, privacy policy, cookies policy, ...
+      3. Menus: main menu -usually a the top of the page-, footer / legal menu, ...
+   2. Common-to-a-project-category Features:
+      1. eCommerce: e.g. WooCommerce -plugin-, utc page, profile page, account menu, ...
+      2. membership site: e.g. MemberPress -plugin-, profile page, account menu, ...
+      3. educational: e.g. LearnDash, courses page, subject page, profile page, account menu, ...
+   3. Project-specific Features:
+      1. any plugin you need for a specific feature, e.g. Flamingo -to save all Contact Form 7 submits in the WordPress database,...
+      2. any page: e.g. team page, ...
+4. Project-specific customizations -made in the `functions.php` file.
+
+You can see you are repeating from point 1 to point 3.2.1 for each and every project you build. How much time -and money- does it cost to you? On average, that part of the setup takes 2 to 4 hours.
+
+And what about point 3.2.2. -which you're doing every time you build a category-specific project?
+
+Wouldn't it be great if you could automate all that work and focus on what truly adds value to a project?
+
+I hope this repo helps you to write a script that automates anything common to your projects. I made it as generic as possible so you have a good base to begin with and I'm trying to add as much info as I can so you can modify it to build your own customized script.
+
+Feel free to contact me to ask for help. I won't answer for theme or plugin specific setups -too many themes and plugins out there- but I'm open to help with anything else -e.g. how can you get info about plugins, pages, ... to make your own modifications-.
+
+Just make sure you read the [How to modify this project](#how-to-modify-this-project) section before as any question I've been asked is answered there.
 
 ## How it works
 
@@ -127,21 +161,25 @@ For those cases we need to handle ourselves, I've written this function.
 
 Please, note we substitute spaces before passing THE_NAME_TO_BE_SLUGIFIED so the function has no problem getting all the name as one parameter.
 
-## Modify this project
+## How to modify this project
 
-### Add a new theme
+### Features
 
-#### Paid themes
+#### Question: How can I add a new menu?
 
-### Add a new plugin
+#### Question: How can I add a new page?
 
-#### Paid plugins
+#### Question: How can I add a new plugin?
 
-### Add a new page
+#### Question: How can I add a new paid plugin?
 
-### Add a new menu
+#### Question: How can I add a new widget?
 
-### Add a new widget
+### Themes
+
+#### Question: How can I add a new theme?
+
+#### Question: How can I add a new paid theme?
 
 ### Wanna know anything more?
 
