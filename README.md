@@ -177,7 +177,9 @@ You'll see the following defaults:
    4. `OUR_ADMIN_DISPLAY_NAME`: My user's display name.
    5. `OUR_ADMIN_URL`: My user's website.
    6. `OUR_ADMIN_USER`: My user's login. This is a required field. In this case, I generate it from the display name -which is also generated from first and last name-.
-5. Default colors: As I think this is key in a development process I've created this set of vars.
+5. Base Menus: Here you can set base menu names and should you follow all the steps correctly the script is going to set the menus right.
+6. Default Theme: Here you can set the default theme.
+7. Default colors: As I think this is key in a development process I've created this set of vars.
    1. Brand colors: generally we use two sets of brand colors -each one with a background and a foreground / text color-:
       1. Primary colors:
          1. `PRIMARY_BG_COLOR`
@@ -189,13 +191,13 @@ You'll see the following defaults:
       1. Info messages:
          1. `INFO_BG_COLOR`
          2. `INFO_FG_COLOR`
-      1. Success messages:
+      2. Success messages:
          1. `SUCCESS_BG_COLOR`
          2. `SUCCESS_FG_COLOR`
-      1. Warning messages:
+      3. Warning messages:
          1. `WARNING_BG_COLOR`
          2. `WARNING_FG_COLOR`
-      1. Danger messages:
+      4. Danger messages:
          1. `DANGER_BG_COLOR`
          2. `DANGER_FG_COLOR`
 
@@ -219,7 +221,7 @@ In order to add another menu -say a social menu with links to all our social net
 
 1. Add the new menu after the Legal Menu with the same command:
    1. `NEW_MENU=$(wp menu create ${MENU_NAME} --porcelain)`
-2. Check if there's any menu location that suits your need. 
+2. Check if there's any menu location that suits your need.
    1. You can do it accessing the server through SSH and using the following command:
       1. `wp menu location list`
    2. In case the theme doesn't have a suitable menu location, you can check for widget areas -which WP CLI knows as 'sidebars'- using the following command:
@@ -234,6 +236,13 @@ In order to add another menu -say a social menu with links to all our social net
 Don't forget to change var names -NEW_MENU, MENU_NAME, MENU_LOCATION, WIDGET_LOCATION- so they are not mistaken with others.
 
 #### Question: How can I add a new page?
+
+If you just want a page with some content, you can:
+
+1. Copy the "Cookies Policy Page" folder
+2. Change var names in the `install.sh` file
+3. Change page title in the `install.sh` file
+4. Change menu in the `install.sh` file if needed
 
 #### Question: How can I add a new plugin?
 
@@ -311,7 +320,8 @@ On the other hand, I'll try to answer any question it's not already answered in 
 
 ## TODO
 
-1. Add code to setup basic colors from user input.
+1. Add code to setup basic colors from user input
+2. Add code to set basic content for pages -Gutenberg content-
 
 ## Technologies
 
