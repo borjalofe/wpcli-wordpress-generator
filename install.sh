@@ -310,7 +310,7 @@ fi
 #                                                                              #
 ################################################################################
 
-
+mkdir -p "${BASE_FOLDER}/themes/${PARENT_THEME}/l10n/"
 wget "${REPO}/themes/${PARENT_THEME}/install.sh" -q -O "${BASE_FOLDER}/themes/${PARENT_THEME}/install.sh" -
 wget "${REPO}/themes/default/l10n/${LOCALE}.sh" -q -O "${BASE_FOLDER}/themes/${PARENT_THEME}/l10n/${LOCALE}.sh" -
 
