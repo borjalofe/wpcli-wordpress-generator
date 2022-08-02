@@ -82,32 +82,33 @@ Just make sure you read the [How to modify this project](#how-to-modify-this-pro
             direction LR
             C --> D[Base Install]
             D --> E[User Setup]
-            E --> F[Theme Setup]
-            F --> G{Is it a paid theme?}
-            G -->|yes| H[Install Paid Theme Plugin]
+            E --> F[Menu Setup]
+            F --> G[Theme Setup]
+            G --> H{Is it a paid theme?}
+            H -->|yes| i[Install Paid Theme Plugin]
         end
         subgraph content [Content Setup]
             direction LR
-            G ---->|No| I[Home Page Setup]
-            H --> I
-            I --> J[Blog Page Setup]
-            J --> K[Contact Page Setup]
-            K --> L{Is Contact Form 7 installed?}
-            L -->|No| M[Contact Form 7 Install & Setup]
-            L ---->|Yes| N[Create & Add Contact Form to Contact Page]
-            M --> N
-            N --> O{Has the web being flagged as eCommerce?}
-            O -->|Yes| P[WooCommerce Install & Setup]
+            H ---->|No| J[Home Page Setup]
+            I --> J
+            J --> K[Blog Page Setup]
+            K --> L[Contact Page Setup]
+            L --> M{Is Contact Form 7 installed?}
+            M -->|No| N[Contact Form 7 Install & Setup]
+            M ---->|Yes| O[Create & Add Contact Form to Contact Page]
+            N --> O
+            O --> P{Has the web being flagged as eCommerce?}
+            P -->|Yes| Q[WooCommerce Install & Setup]
         end
         subgraph content [Ending Tasks]
             direction LR
-            O ---->|No| Q[Update Website]
-            P --> Q
-            Q --> R[Clean Installation Files]
+            P ---->|No| R[Update Website]
+            Q --> R
+            R --> S[Clean Installation Files]
         end
         A[Helper Functions]
         B[Set Defaults] --> C[Get User Input]
-        R --> S((Finish!))
+        S --> T((Finish!))
 ```
 
 ### Helper Functions
@@ -204,6 +205,34 @@ You'll see the following defaults:
 
 #### Question: How can I add a new menu?
 
+We set menus before anything else so:
+
+1. we can assign them to their correct location in the theme -as every theme can have their own locations it's easier this way-
+2. and it's also quite easy to assign any page to them
+
+I've added two menus that make sense to me:
+
+1. Main Menu: which usually goes in site's header and has the main site's pages -homepage, blog page, contact page, ...-
+2. Legal Menu: which usually goes in site's footer and has the legal pages -legal notice, privacy policy, cookies policy, ...-
+
+In order to add another menu -say a social menu with links to all our social network accounts- you just need to do the following steps:
+
+1. Add the new menu after the Legal Menu with the same command:
+   1. `NEW_MENU=$(wp menu create ${MENU_NAME} --porcelain)`
+2. Check if there's any menu location that suits your need. 
+   1. You can do it accessing the server through SSH and using the following command:
+      1. `wp menu location list`
+   2. In case the theme doesn't have a suitable menu location, you can check for widget areas -which WP CLI knows as 'sidebars'- using the following command:
+      1. `wp sidebar list`
+3. Go to the theme's setup file -say `themes/generatepress/install.sh`
+4. After the legal menu assign line, you can write
+   1. the following command to assign the menu to a menu location:
+      1. `wp menu location assign ${NEW_MENU} ${MENU_LOCATION}`
+   2. or the following command to assign the menu to a widget location:
+      1. `wp widget add nav_menu ${WIDGET_LOCATION} --nav_menu="${NEW_MENU}"`
+
+Don't forget to change var names -NEW_MENU, MENU_NAME, MENU_LOCATION, WIDGET_LOCATION- so they are not mistaken with others.
+
 #### Question: How can I add a new page?
 
 #### Question: How can I add a new plugin?
@@ -216,47 +245,48 @@ You'll see the following defaults:
 
 #### Question: How can I add a new theme?
 
-I've set theme [Twenty Twenty Two][twentytwentytwo] as the default theme 'cause it's the default theme this year and has the basics of theme setup.
+At first, I set the theme [Twenty Twenty Two][twentytwentytwo] as the default theme 'cause it's the default theme this year and has the basics of theme setup.
+
+However, I had several errors with the new customizer so I changed to [GeneratePress][generatepress].
 
 If you want to use another theme you just need to:
 
-1. copy the `twentytwentytwo` folder
+1. copy the `generatepress` folder
 2. change its name to the theme name you want to setup
 3. modify the `PARENT_THEME` var to match the theme name you want to setup
-4. update the theme's setup to your needs as explained here.
+4. child theme
+   1. generally, you can create a child theme with the `wp scaffold` command:
+      1. `wp scaffold child-theme ${CHILD_THEME} --parent_theme="${PARENT_THEME}" --theme_name="${DOMAIN} Child" --activate`
+   2. but some themes have their own child theme, if that's the case then:
+      1. get the child theme
+      2. remove the version string from the zip file name
+      3. upload it to your private open repo -which you have set up with the `REPO` var explained in the "[Defaults Section](#defaults)"- into the `themes/${PARENT_THEME}/` folder
+      4. add the following line instead of the `wp scaffold child-theme` line in the `install.sh` file inside the `themes/parent_theme/` folder -don't forget to change "ZIP-WITH-THE-CHILD-THEME" with the actual zip file name:
+         1. `wp theme install "${REPO}/themes/${PARENT_THEME}/ZIP-WITH-THE-CHILD-THEME" --activate`
+5. update the theme's setup to your needs as explained [here](#question-how-can-i-setup-a-new-theme).
 
 #### Question: How can I add a new paid theme?
 
-I've set theme [Twenty Twenty Two][twentytwentytwo] as the default theme 'cause it's the default theme this year and has the basics of theme setup.
-
-However in this case it's not as straightforward as with a free theme. Most paid themes are a mix of:
+I've set theme [GeneratePress][generatepress]. However setting it up as paid theme is not as straightforward as with a free theme. Most paid themes are a mix of:
 
 1. a free theme
 2. a paid extension theme plugin
 
-E.g. GeneratePress has:
+In this case GeneratePress has:
 
-1. a free theme called [GeneratePress][generatepress]
+1. a free theme called [GeneratePress][generatepress] -which is set as default-
 2. a paid extension theme plugin called [GP Premium][gp-premium]
 
-You can get the free theme and use it the same way I told you in the [previous question](#question-how-can-i-add-a-new-theme) but you'll need some modifications for the paid extension plugin:
+You'll need to make some modifications for the paid extension plugin:
 
-1. copy the `twentytwentytwo` folder
-2. change its name to the theme name you want to setup
-3. modify the `PARENT_THEME` var to match the theme name you want to setup
-4. some paid themes have their own child theme, if that's the case then:
-   1. get the child theme
-   2. remove the version string from the zip file name
-   3. upload it to your private open repo -which you have set up with the `REPO` var explained in the "[Defaults Section](#defaults)"- into the `themes/parent_theme/` folder
-   4. add the following line instead of the `wp scaffold child-theme` line in the `install.sh` file inside the `themes/parent_theme/` folder -don't forget to change "ZIP-WITH-THE-CHILD-THEME" with the actual zip file name:
-      1. wp theme install "${REPO}/themes/${PARENT_THEME}/ZIP-WITH-THE-CHILD-THEME" --activate
-5. now you have to setup the paid extension theme plugin:
+1. I assume you've set the free theme up with the instructions from [How can I add a new theme?](#question-how-can-i-add-a-new-theme).
+2. now you have to setup the paid extension theme plugin:
    1. get the paid extension theme plugin
    2. remove the version string from the zip file name
-   3. upload it to your private open repo -which you have set up with the `REPO` var explained in the "[Defaults Section](#defaults)"- into the `themes/parent_theme/` folder
+   3. upload it to your private open repo -which you have set up with the `REPO` var explained in the "[Defaults Section](#defaults)"- into the `themes/${PARENT_THEME}/` folder
    4. add the following line to after the `wp theme install "${REPO}/themes/${PARENT_THEME}/ZIP-WITH-THE-CHILD-THEME" --activate` line the `install.sh` file inside the `themes/parent_theme/` folder -don't forget to change "ZIP-WITH-THE-PLUGIN" with the actual zip file name:
-      1. wp plugin install "${REPO}/themes/${PARENT_THEME}/ZIP-WITH-THE-PLUGIN" --activate
-6. update the theme's setup to your needs as explained here.
+      1. `wp plugin install "${REPO}/themes/${PARENT_THEME}/ZIP-WITH-THE-PLUGIN" --activate`
+3. update the theme's setup to your needs as explained [here](#question-how-can-i-setup-a-new-theme).
 
 #### Question: How can I setup a new theme?
 

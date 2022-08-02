@@ -19,4 +19,13 @@ for theme in $(wp theme list --status=inactive --field=name); do
     done
 done
 
+##
+# Install child theme
+##
 wp theme install https://generatepress.com/api/themes/generatepress_child.zip --activate
+
+##
+# Setup Menus
+##
+wp menu location assign ${MAIN_MENU} primary
+wp widget add nav_menu footer-bar --nav_menu="${LEGAL_MENU}"

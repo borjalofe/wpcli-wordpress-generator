@@ -138,7 +138,9 @@ fi
 ##
 # Default Theme
 ##
-PARENT_THEME='twentytwentytwo'
+MAIN_MENU_NAME='Main Menu'
+LEGAL_MENU_NAME='Legal Menu'
+PARENT_THEME='generatepress'
 
 ##
 # Default Colors
@@ -301,6 +303,16 @@ if [[ $OUR_ADMIN_USER != '' ]] & [[ $OUR_ADMIN_EMAIL != '' ]]; then
     fi
 
 fi
+
+################################################################################
+#                                                                              #
+#                                                                              #
+#                                  Menu Setup                                  #
+#                                                                              #
+#                                                                              #
+################################################################################
+MAIN_MENU=$(wp menu create ${MAIN_MENU_NAME} --porcelain)
+LEGAL_MENU=$(wp menu create ${LEGAL_MENU_NAME} --porcelain)
 
 ################################################################################
 #                                                                              #
