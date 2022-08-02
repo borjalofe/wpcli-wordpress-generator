@@ -131,7 +131,7 @@ OUR_ADMIN_FIRST_NAME=''
 OUR_ADMIN_LAST_NAME=''
 OUR_ADMIN_URL=''
 OUR_ADMIN_DISPLAY_NAME="${OUR_ADMIN_FIRST_NAME} ${OUR_ADMIN_LAST_NAME}"
-if [ "${OUR_ADMIN_DISPLAY_NAME}" != " " ]; then
+if [[ "${OUR_ADMIN_DISPLAY_NAME}" != " " ]]; then
     OUR_ADMIN_USER=$(slugify ${OUR_ADMIN_DISPLAY_NAME// /})
 fi
 
@@ -184,11 +184,11 @@ read -sp "What's your Admin User's Password? -we're not going to show the passwo
 echo -e "\nDo you want to setup an ecommerce?\n    - Write \"yes\" or \"y\" to do so\n    - Anything else won't setup an ecommerce"
 read -p "> " HAS_ECOMMERCE
 
-if [ "yes" == "${HAS_ECOMMERCE}" ]; then
+if [[ "yes" == "${HAS_ECOMMERCE}" ]]; then
     HAS_ECOMMERCE='y'
 fi
 
-if [ "y" != "${HAS_ECOMMERCE}" ]; then
+if [[ "y" != "${HAS_ECOMMERCE}" ]]; then
     HAS_ECOMMERCE='n'
 fi
 
@@ -280,23 +280,23 @@ wp rewrite structure '/%postname%/'
 ##
 MAIN_AUTHOR=$(wp user create "${EDITOR_USER}" "${EDITOR_EMAIL}" --user_pass="${EDITOR_PASS}" --role=editor --porcelain)
 
-if [ $OUR_ADMIN_USER != '' ] & [ $OUR_ADMIN_EMAIL != '' ]; then
+if [[ $OUR_ADMIN_USER != '' ]] & [[ $OUR_ADMIN_EMAIL != '' ]]; then
 
     OUR_ADMIN=$(wp user create "${OUR_ADMIN_USER}" "${OUR_ADMIN_EMAIL}" --role=administrator --send-email --porcelain)
 
-    if [ $OUR_ADMIN_FIRST_NAME != '' ]; then
+    if [[ $OUR_ADMIN_FIRST_NAME != '' ]]; then
         wp user update ${OUR_ADMIN} --first_name=${OUR_ADMIN_FIRST_NAME}
     fi
 
-    if [ $OUR_ADMIN_LAST_NAME != '' ]; then
+    if [[ $OUR_ADMIN_LAST_NAME != '' ]]; then
         wp user update ${OUR_ADMIN} --last_name=${OUR_ADMIN_LAST_NAME}
     fi
 
-    if [ $OUR_ADMIN_DISPLAY_NAME != '' ]; then
+    if [[ $OUR_ADMIN_DISPLAY_NAME != '' ]]; then
         wp user update ${OUR_ADMIN} --user_email=${OUR_ADMIN_DISPLAY_NAME}
     fi
 
-    if [ $OUR_ADMIN_URL != '' ]; then
+    if [[ $OUR_ADMIN_URL != '' ]]; then
         wp user update ${OUR_ADMIN} --user_url=${OUR_ADMIN_URL}
     fi
 
