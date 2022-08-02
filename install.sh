@@ -136,10 +136,14 @@ if [[ "${OUR_ADMIN_DISPLAY_NAME}" != " " ]]; then
 fi
 
 ##
-# Default Theme
+# Base Menus
 ##
 MAIN_MENU_NAME='Main Menu'
 LEGAL_MENU_NAME='Legal Menu'
+
+##
+# Default Theme
+##
 PARENT_THEME='generatepress'
 
 ##
@@ -302,6 +306,7 @@ if [[ $OUR_ADMIN_USER != '' ]] & [[ $OUR_ADMIN_EMAIL != '' ]]; then
         wp user update ${OUR_ADMIN} --user_url=${OUR_ADMIN_URL}
     fi
 
+    MAIN_AUTHOR=OUR_ADMIN
 fi
 
 ################################################################################
@@ -335,3 +340,31 @@ fi
 source "${BASE_FOLDER}/themes/${PARENT_THEME}/l10n/${LOCALE}.sh"
 
 source "${BASE_FOLDER}/themes/${PARENT_THEME}/install.sh"
+
+################################################################################
+#                                                                              #
+#                                                                              #
+#                                Features Setup                                #
+#                                                                              #
+#                                                                              #
+################################################################################
+
+mkdir -p "${BASE_FOLDER}/content/pages/blog/" "${BASE_FOLDER}/content/pages/contact/" "${BASE_FOLDER}/content/pages/cookies/" "${BASE_FOLDER}/content/pages/home/" "${BASE_FOLDER}/content/pages/legal/" "${BASE_FOLDER}/content/pages/privacy/"
+
+wget "${REPO}/content/pages/home/install.sh" -q -O "${BASE_FOLDER}/content/pages/home/install.sh" -
+source "${BASE_FOLDER}/content/pages/home/install.sh"
+
+wget "${REPO}/content/pages/blog/install.sh" -q -O "${BASE_FOLDER}/content/pages/blog/install.sh" -
+source "${BASE_FOLDER}/content/pages/blog/install.sh"
+
+wget "${REPO}/content/pages/contact/install.sh" -q -O "${BASE_FOLDER}/content/pages/contact/install.sh" -
+source "${BASE_FOLDER}/content/pages/contact/install.sh"
+
+wget "${REPO}/content/pages/legal/install.sh" -q -O "${BASE_FOLDER}/content/pages/legal/install.sh" -
+source "${BASE_FOLDER}/content/pages/legal/install.sh"
+
+wget "${REPO}/content/pages/privacy/install.sh" -q -O "${BASE_FOLDER}/content/pages/privacy/install.sh" -
+source "${BASE_FOLDER}/content/pages/privacy/install.sh"
+
+wget "${REPO}/content/pages/cookies/install.sh" -q -O "${BASE_FOLDER}/content/pages/cookies/install.sh" -
+source "${BASE_FOLDER}/content/pages/cookies/install.sh"
