@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 PARENT_THEME='twentytwentytwo'
 
