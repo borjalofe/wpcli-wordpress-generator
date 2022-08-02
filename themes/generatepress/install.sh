@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PARENT_THEME='twentytwentytwo'
+PARENT_THEME='generatepress'
 
 ##
 # Theme install
@@ -13,8 +13,10 @@ wp theme install ${PARENT_THEME} --activate
 for theme in $(wp theme list --status=inactive --field=name); do
     wp theme delete $theme
     for optionToDelete in $(wp option list --search="*${theme}*" --field=option_name); do
-        wp option delete $optionToDelete;
+        if [[ $optionToDelete != *"${PARENT_THEME}"* ]]; then
+            wp option delete $optionToDelete;
+        fi
     done
 done
 
-wp scaffold child-theme ${CHILD_THEME} --parent_theme="${PARENT_THEME}" --theme_name="${DOMAIN} Child" --activate
+wp theme install https://generatepress.com/api/themes/generatepress_child.zip --activate
