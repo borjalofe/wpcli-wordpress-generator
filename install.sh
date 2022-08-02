@@ -280,7 +280,7 @@ wp rewrite structure '/%postname%/'
 ##
 MAIN_AUTHOR=$(wp user create "${EDITOR_USER}" "${EDITOR_EMAIL}" --user_pass="${EDITOR_PASS}" --role=editor --porcelain)
 
-if [ $OUR_ADMIN_USER != '' ] && [ $OUR_ADMIN_EMAIL != '' ]; then
+if [ $OUR_ADMIN_USER != '' ] & [ $OUR_ADMIN_EMAIL != '' ]; then
 
     OUR_ADMIN=$(wp user create "${OUR_ADMIN_USER}" "${OUR_ADMIN_EMAIL}" --role=administrator --send-email --porcelain)
 
