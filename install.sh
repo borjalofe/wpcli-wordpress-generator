@@ -107,7 +107,7 @@ BASE_FOLDER=$(pwd)
 
 # If you're going to use paid plugins from the beginning, you'll need to have
 # them accesible from some open repo. You can set that repo here.
-REPO="https://codediem.com/blf-wp-addons-20220628" 
+REPO="" 
 
 ##
 # Default DB Data
@@ -316,8 +316,8 @@ fi
 #                                                                              #
 #                                                                              #
 ################################################################################
-MAIN_MENU=$(wp menu create ${MAIN_MENU_NAME} --porcelain)
-LEGAL_MENU=$(wp menu create ${LEGAL_MENU_NAME} --porcelain)
+MAIN_MENU=$(wp menu create "${MAIN_MENU_NAME}" --porcelain)
+LEGAL_MENU=$(wp menu create "${LEGAL_MENU_NAME}" --porcelain)
 
 ################################################################################
 #                                                                              #
@@ -328,14 +328,9 @@ LEGAL_MENU=$(wp menu create ${LEGAL_MENU_NAME} --porcelain)
 ################################################################################
 
 mkdir -p "${BASE_FOLDER}/themes/${PARENT_THEME}/l10n/"
-wget "${REPO}/themes/${PARENT_THEME}/install.sh" -q -O "${BASE_FOLDER}/themes/${PARENT_THEME}/install.sh" -
-wget "${REPO}/themes/default/l10n/${LOCALE}.sh" -q -O "${BASE_FOLDER}/themes/${PARENT_THEME}/l10n/${LOCALE}.sh" -
 
-if [[ $(ls "./themes/${PARENT_THEME}/" | grep install | wc -l ) -eq 1 ]]; then
-    wget "${REPO}/themes/${PARENT_THEME}/l10n/${LOCALE}.sh" -q -O "${BASE_FOLDER}/themes/${PARENT_THEME}/l10n/${LOCALE}.sh" -
-    if [[ $(ls "./themes/${PARENT_THEME}/l10n/" | grep ${LOCALE} | wc -l ) -eq 0 ]]; then
-        wget "${REPO}/themes/default/l10n/${LOCALE}.sh" -q -O "${BASE_FOLDER}/themes/${PARENT_THEME}/l10n/${LOCALE}.sh" -
-    fi
+if [[ $(ls "./themes/${PARENT_THEME}/l10n/" | grep ${LOCALE} | wc -l ) -eq 0 ]]; then
+    cp "${BASE_FOLDER}/themes/default/l10n/${LOCALE}.sh" "${BASE_FOLDER}/themes/${PARENT_THEME}/l10n/${LOCALE}.sh"
 fi
 source "${BASE_FOLDER}/themes/${PARENT_THEME}/l10n/${LOCALE}.sh"
 
@@ -351,20 +346,14 @@ source "${BASE_FOLDER}/themes/${PARENT_THEME}/install.sh"
 
 mkdir -p "${BASE_FOLDER}/content/pages/blog/" "${BASE_FOLDER}/content/pages/contact/" "${BASE_FOLDER}/content/pages/cookies/" "${BASE_FOLDER}/content/pages/home/" "${BASE_FOLDER}/content/pages/legal/" "${BASE_FOLDER}/content/pages/privacy/"
 
-wget "${REPO}/content/pages/home/install.sh" -q -O "${BASE_FOLDER}/content/pages/home/install.sh" -
 source "${BASE_FOLDER}/content/pages/home/install.sh"
 
-wget "${REPO}/content/pages/blog/install.sh" -q -O "${BASE_FOLDER}/content/pages/blog/install.sh" -
 source "${BASE_FOLDER}/content/pages/blog/install.sh"
 
-wget "${REPO}/content/pages/contact/install.sh" -q -O "${BASE_FOLDER}/content/pages/contact/install.sh" -
-source "${BASE_FOLDER}/content/pages/contact/install.sh"
-
-wget "${REPO}/content/pages/legal/install.sh" -q -O "${BASE_FOLDER}/content/pages/legal/install.sh" -
 source "${BASE_FOLDER}/content/pages/legal/install.sh"
 
-wget "${REPO}/content/pages/privacy/install.sh" -q -O "${BASE_FOLDER}/content/pages/privacy/install.sh" -
 source "${BASE_FOLDER}/content/pages/privacy/install.sh"
 
-wget "${REPO}/content/pages/cookies/install.sh" -q -O "${BASE_FOLDER}/content/pages/cookies/install.sh" -
 source "${BASE_FOLDER}/content/pages/cookies/install.sh"
+
+source "${BASE_FOLDER}/content/pages/contact/install.sh"
