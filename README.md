@@ -106,8 +106,8 @@ Just make sure you read the [How to modify this project](#how-to-modify-this-pro
             Q --> R
             R --> S[Clean Installation Files]
         end
-        A[Helper Functions]
-        B[Set Defaults] --> C[Get User Input]
+        A[Helper Functions] --> B[Set Defaults]
+        B --> C[Get User Input]
         S --> T((Finish!))
 ```
 
