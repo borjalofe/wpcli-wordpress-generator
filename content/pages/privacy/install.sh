@@ -3,6 +3,11 @@
 PRIVACY_POLICY_PAGE_NAME='Privacy Policy'
 
 ##
+# Delete previous info
+##
+wp post delete 3
+
+##
 # Generate Page Content
 ##
 
