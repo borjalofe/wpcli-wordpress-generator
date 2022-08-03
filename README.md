@@ -85,7 +85,7 @@ Just make sure you read the [How to modify this project](#how-to-modify-this-pro
             E --> F[Menu Setup]
             F --> G[Theme Setup]
             G --> H{Is it a paid theme?}
-            H -->|yes| i[Install Paid Theme Plugin]
+            H -->|yes| I[Install Paid Theme Plugin]
         end
         subgraph content [Content Setup]
             direction LR
