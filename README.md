@@ -244,6 +244,10 @@ If you just want a page with some content, you can:
 3. Change page title in the `install.sh` file
 4. Change menu in the `install.sh` file if needed
 
+Please, think carefully about the order you're using when adding pages as some pages have dependencies.
+
+E.g. Contact Page has a form that needs a link to Privacy Policy so you must add Privacy Policy **before** Contact Page.
+
 #### Question: How can I add a new plugin?
 
 #### Question: How can I add a new paid plugin?
