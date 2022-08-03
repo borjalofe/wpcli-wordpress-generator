@@ -272,6 +272,7 @@ wp option update use_smilies 0
 # Permalink Setup
 ##
 wp rewrite structure '/%postname%/'
+wp rewrite flush
 
 ################################################################################
 #                                                                              #
